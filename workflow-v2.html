@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-Step Workflow | Bankstore AI FDE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --brand-blue: #305dff;
+            --brand-blue-glow: rgba(48, 93, 255, 0.4);
+            --brand-blue-dark: #1e3a9f;
+            --brand-light: #5b8aff;
+            --brand-accent: #7aa2ff;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --bg-glass: rgba(255, 255, 255, 0.05);
+            --bg-glass-hover: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-glass: rgba(255, 255, 255, 0.1);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --code-bg: #0d1117;
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 2rem;
+            --radius-sm: 6px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --radius-full: 9999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .bg-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(ellipse at 20% 0%, rgba(48, 93, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 100%, rgba(91, 138, 255, 0.08) 0%, transparent 50%);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--space-md) var(--space-xl);
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .nav-logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-brand span {
+            font-weight: 800;
+            font-size: var(--text-lg);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: var(--space-xs);
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+            background: var(--bg-glass);
+        }
+
+        .nav-links a.active {
+            color: var(--brand-blue);
+            background: rgba(48, 93, 255, 0.1);
+        }
+
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            padding: var(--space-sm);
+            cursor: pointer;
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+            padding-top: calc(90px + 4rem);
+        }
+
+        /* Page header */
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .page-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            background: rgba(48, 93, 255, 0.1);
+            border: 1px solid rgba(48, 93, 255, 0.2);
+            border-radius: 14px;
+            font-size: 1.75rem;
+            line-height: 1;
+            vertical-align: middle;
+            margin-right: 1rem;
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            font-size: 2.25rem;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            font-size: var(--text-lg);
+        }
+
+        /* Warning banner */
+        .warning-banner {
+            background: linear-gradient(135deg, var(--brand-blue-dark) 0%, var(--brand-blue) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-2xl);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .warning-banner .icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .warning-banner p {
+            font-size: var(--text-base);
+            font-weight: 500;
+        }
+
+        .warning-banner strong {
+            display: block;
+            font-size: var(--text-lg);
+            margin-bottom: var(--space-xs);
+        }
+
+        /* Progress tracker */
+        .progress-tracker {
+            position: sticky;
+            top: 80px;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: var(--space-md) var(--space-lg);
+            margin-bottom: var(--space-2xl);
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-step {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--bg-glass);
+            border: 2px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-sm);
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .progress-step:hover {
+            border-color: var(--brand-blue);
+            color: var(--brand-blue);
+            background: rgba(48, 93, 255, 0.1);
+        }
+
+        .progress-step.active {
+            background: var(--brand-blue);
+            border-color: var(--brand-blue);
+            color: white;
+            box-shadow: 0 0 20px var(--brand-blue-glow);
+        }
+
+        .progress-line {
+            flex: 1;
+            height: 2px;
+            background: var(--border-glass);
+            margin: 0 var(--space-xs);
+        }
+
+        /* Step cards */
+        .step-card {
+            position: relative;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            margin-bottom: var(--space-lg);
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            border-color: rgba(48, 93, 255, 0.3);
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, var(--brand-blue), var(--brand-light));
+            border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--brand-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xl);
+            font-weight: 800;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px var(--brand-blue-glow);
+        }
+
+        .step-titles h2 {
+            font-size: var(--text-xl);
+            font-weight: 700;
+            margin-bottom: var(--space-xs);
+        }
+
+        .step-titles .subtitle {
+            color: var(--brand-light);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .step-content {
+            padding-left: calc(48px + var(--space-md));
+        }
+
+        .step-content p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-md);
+        }
+
+        /* Alert boxes */
+        .alert {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-md);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: var(--radius-md);
+            margin: var(--space-md) 0;
+        }
+
+        .alert.danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .alert.success {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .alert.warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .alert .icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .alert p {
+            margin: 0;
+            font-size: var(--text-sm);
+        }
+
+        .alert strong {
+            color: var(--text-primary);
+        }
+
+        /* Code blocks */
+        .code-block {
+            position: relative;
+            margin: var(--space-md) 0;
+        }
+
+        .code-block pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: var(--text-sm);
+            line-height: 1.6;
+        }
+
+        .code-block code {
+            color: var(--text-secondary);
+        }
+
+        .code-block .label {
+            position: absolute;
+            top: 0;
+            left: var(--space-md);
+            transform: translateY(-50%);
+            background: var(--bg-secondary);
+            padding: var(--space-xs) var(--space-sm);
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            font-weight: 600;
+            color: var(--brand-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: var(--space-sm);
+            right: var(--space-sm);
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            color: var(--text-muted);
+            padding: var(--space-sm) var(--space-md);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: var(--text-xs);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+
+        .copy-btn:hover {
+            background: var(--brand-blue);
+            border-color: var(--brand-blue);
+            color: white;
+        }
+
+        .copy-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Inline code */
+        code:not(pre code) {
+            background: var(--bg-glass);
+            padding: 0.1em 0.4em;
+            border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            color: var(--brand-light);
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            margin: var(--space-md) 0;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-sm);
+            padding: var(--space-sm) 0;
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        .checklist li::before {
+            content: '□';
+            color: var(--brand-blue);
+            font-size: 1.1em;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            main {
+                padding: 1rem;
+                padding-top: calc(120px + 2rem);
+            }
+
+            .page-title {
+                font-size: var(--text-2xl);
+            }
+
+            .progress-tracker {
+                padding: var(--space-sm);
+            }
+
+            .progress-step {
+                width: 28px;
+                height: 28px;
+                font-size: var(--text-xs);
+            }
+
+            .step-content {
+                padding-left: 0;
+                margin-top: var(--space-md);
+            }
+
+            .step-header {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-gradient"></div>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="index-v2.html" class="nav-brand">
+                <div class="nav-logo">
+                    <svg viewBox="0 0 80 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M72.1987 17.0254C73.7255 17.6635 75.0887 18.5823 76.2883 19.7808C77.4867 20.9804 78.4056 22.3436 79.0437 23.8703C79.6817 25.3983 80.0008 27.0318 80.0008 28.772C80.0008 30.5123 79.6817 32.0889 79.0437 33.6157C78.4056 35.1436 77.4867 36.5068 76.2883 37.7053C75.0898 38.9037 73.7255 39.8226 72.1987 40.4606C70.6708 41.0987 69.0373 41.4178 67.297 41.4178H43.5137C42.2375 41.4178 41.1447 40.9642 40.2362 40.0546C39.3267 39.1462 38.8731 38.0533 38.8731 36.7771C38.8731 35.501 39.3267 34.4092 40.2362 33.4997C41.1458 32.5901 42.2375 32.1365 43.5137 32.1365H67.297C68.2634 32.1365 69.0755 31.8082 69.7334 31.1503C70.3912 30.4925 70.7195 29.7001 70.7195 28.772C70.7195 27.8439 70.39 26.9935 69.7334 26.3357C69.0755 25.679 68.2634 25.3495 67.297 25.3495H49.1985C47.4965 25.3495 45.8816 25.0305 44.3548 24.3924C42.8269 23.7543 41.4637 22.8366 40.2653 21.637C39.0656 20.4386 38.148 19.0754 37.5099 17.5474C36.8718 16.0207 36.5527 14.4057 36.5527 12.7038C36.5527 11.0018 36.8718 9.3393 37.5099 7.83109C38.148 6.32288 39.0656 4.95041 40.2653 3.71252C41.4637 2.51407 42.8269 1.59522 44.3548 0.957134C45.8816 0.319045 47.4965 0 49.1985 0H73.0398C74.316 0 75.4077 0.454783 76.3173 1.36319C77.2257 2.27276 77.6805 3.36447 77.6805 4.64065C77.6805 5.91683 77.2257 7.05842 76.3173 7.94711C75.4077 8.83695 74.316 9.28129 73.0398 9.28129H49.1985C48.2704 9.28129 47.4768 9.62006 46.8202 10.2964C46.1624 10.974 45.834 11.7756 45.834 12.7038C45.834 13.6319 46.1624 14.4255 46.8202 15.0821C47.4768 15.7399 48.2704 16.0682 49.1985 16.0682H67.297C69.0373 16.0682 70.6708 16.3873 72.1987 17.0254Z"
+                            fill="url(#paint0_linear_nav)" />
+                        <path
+                            d="M39.739 3.71252C40.9375 4.91213 41.8563 6.27532 42.4944 7.80209C43.1325 9.33002 43.4515 10.945 43.4515 12.6458C43.4515 15.7016 42.5037 18.3886 40.6091 20.7089C41.5373 21.8308 42.2427 23.0779 42.7264 24.4504C43.2091 25.824 43.4515 27.2452 43.4515 28.714V28.772C43.4515 30.474 43.1325 32.0889 42.4944 33.6157C41.8563 35.1436 40.9375 36.5068 39.739 37.7053C38.5406 38.9037 37.1762 39.8226 35.6495 40.4606C34.1215 41.0987 32.5066 41.4178 30.8058 41.4178H4.64413C3.36795 41.4178 2.27508 40.9642 1.36667 40.0546C0.457104 39.1462 0.00348034 38.0533 0.00348034 36.7771C0.00348034 35.501 0.457104 34.4092 1.36667 33.4997C2.27624 32.5901 3.36795 32.1365 4.64413 32.1365H30.8058C31.7339 32.1365 32.5263 31.8082 33.1841 31.1503C33.8419 30.4925 34.1702 29.7001 34.1702 28.772V28.714C34.1702 27.7859 33.8408 26.9935 33.1841 26.3357C32.5263 25.679 31.7339 25.3495 30.8058 25.3495H4.64413C3.36795 25.3495 2.27508 24.8959 1.36667 23.9863C0.457104 23.0779 0.00348034 21.9851 0.00348034 20.7089C0.00348034 19.4327 0.457104 18.2923 1.36667 17.4024C2.27508 16.5137 3.36795 16.0682 4.64413 16.0682H30.8058C31.7339 16.0682 32.5263 15.7399 33.1841 15.0821C33.8419 14.4243 34.1702 13.6133 34.1702 12.6458C34.1702 11.6782 33.8408 10.9252 33.1841 10.2674C32.5263 9.61078 31.7339 9.28129 30.8058 9.28129H4.64413C3.36795 9.28129 2.27508 8.83695 1.36667 7.94711C0.457104 7.05842 0.00348034 5.95627 0.00348034 4.64065C0.00348034 3.32502 0.457104 2.27276 1.36667 1.36319C2.27624 0.453623 3.36795 0 4.64413 0H30.8058C32.5066 0 34.1215 0.319045 35.6495 0.957134C37.1762 1.59522 38.5394 2.51407 39.739 3.71252Z"
+                            fill="white" />
+                        <path
+                            d="M7.01898 19.551H1.39219C0.623307 19.551 0 20.1744 0 20.9432V36.8224C0 37.5913 0.623307 38.2146 1.39219 38.2146H7.01898C7.78787 38.2146 8.41117 37.5913 8.41117 36.8224V20.9432C8.41117 20.1744 7.78787 19.551 7.01898 19.551Z"
+                            fill="white" />
+                        <defs>
+                            <linearGradient id="paint0_linear_nav" x1="10.3786" y1="20.7089" x2="64.5736" y2="20.7089"
+                                gradientUnits="userSpaceOnUse">
+                                <stop stop-opacity="0" />
+                                <stop offset="1" stop-color="#305DFF" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span>Bankstore</span>
+            </a>
+
+            <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index-v2.html">Home</a>
+                <a href="philosophy-v2.html">Philosophy</a>
+                <a href="planning-v2.html">Planning</a>
+                <a href="tools-v2.html">Tools</a>
+                <a href="workflow-v2.html" class="active">Workflow</a>
+                <a href="prompts-v2.html">Prompts</a>
+                <a href="review-v2.html">Review</a>
+                <a href="git-v2.html">Git</a>
+                <a href="reference-v2.html">Reference</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <header class="page-header">
+            <h1 class="page-title"><span class="page-icon">🔄</span>10-Step Workflow</h1>
+            <p class="page-subtitle">Every feature. Every time. No exceptions.</p>
+        </header>
+
+        <div class="warning-banner">
+            <span class="icon">⚠️</span>
+            <div>
+                <strong>This workflow prevents "Code Slop"</strong>
+                <p>Messy, unmaintainable code that AI generates when not strictly guided. Never skip a step!</p>
+            </div>
+        </div>
+
+        <div class="progress-tracker">
+            <div class="progress-steps">
+                <a href="#step-1" class="progress-step active">1</a>
+                <div class="progress-line"></div>
+                <a href="#step-2" class="progress-step">2</a>
+                <div class="progress-line"></div>
+                <a href="#step-3" class="progress-step">3</a>
+                <div class="progress-line"></div>
+                <a href="#step-4" class="progress-step">4</a>
+                <div class="progress-line"></div>
+                <a href="#step-5" class="progress-step">5</a>
+                <div class="progress-line"></div>
+                <a href="#step-6" class="progress-step">6</a>
+                <div class="progress-line"></div>
+                <a href="#step-7" class="progress-step">7</a>
+                <div class="progress-line"></div>
+                <a href="#step-8" class="progress-step">8</a>
+                <div class="progress-line"></div>
+                <a href="#step-9" class="progress-step">9</a>
+                <div class="progress-line"></div>
+                <a href="#step-10" class="progress-step">10</a>
+            </div>
+        </div>
+
+        <!-- Step 1 -->
+        <article id="step-1" class="step-card">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <div class="step-titles">
+                    <h2>Think & Plan</h2>
+                    <span class="subtitle">The "Mini-Spec"</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="alert danger">
+                    <span class="icon">🛑</span>
+                    <p><strong>STOP. Do not code yet.</strong> Open a temporary <code>todo.md</code> or use Cursor's
+                        Plan Mode.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code>"I need to build [Feature X]. Create a step-by-step implementation plan
+in todo.md. Do NOT write code yet. List:
+1. Files we will create or modify
+2. Logic changes required
+3. Dependencies needed
+4. Order of implementation"</code></pre>
+                </div>
+            </div>
+        </article>
+
+        <!-- Step 2 -->
+        <article id="step-2" class="step-card">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <div class="step-titles">
+                    <h2>Load Context</h2>
+                    <span class="subtitle">Feed the AI</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <p>Tag relevant files so the AI doesn't hallucinate. Context is everything.</p>
+
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code>"We are implementing step 1 from todo.md.
+
+Context files:
+@src/services/user_service.py (for service patterns)
+@src/models/user.py (for model structure)
+@src/api/routes/users.py (for route patterns)
+
+Explain your approach before writing any code."</code></pre>
+                </div>
+            </div>
+        </article>
+
+        <!-- Step 3 -->
+        <article id="step-3" class="step-card">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <div class="step-titles">
+                    <h2>Write the Contract</h2>
+                    <span class="subtitle">BDD / Gherkin</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="alert warning">
+                    <span class="icon">⭐</span>
+                    <p><strong>The most critical step.</strong> Write test behavior BEFORE implementation. This is what
+                        separates pros from amateurs.</p>
+                </div>
+
+                <div class="code-block">
+                    <span class="label">Gherkin</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code># tests/features/document_upload.feature
+
+Feature: Document Upload
+  Scenario: Valid PDF Upload
+    Given the user is authenticated
+    And they have a PDF file under 5MB
+    When they POST to /api/documents/upload
+    Then the system should save the file to S3
+    And return a 201 status code
+    And create a document record in the database
+
+  Scenario: Invalid File Type
+    Given the user is authenticated
+    And they have a .exe file
+    When they POST to /api/documents/upload
+    Then return a 400 status code
+    And return error message "Invalid file type"</code></pre>
+                </div>
+            </div>
+        </article>
+
+        <!-- Step 4 -->
+        <article id="step-4" class="step-card">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <div class="step-titles">
+                    <h2>Implement Atomically</h2>
+                    <span class="subtitle">One Feature. One Task. One File.</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code>"Implement the upload_service.py logic to satisfy the Gherkin scenarios.
+
+Rules:
+- Do NOT touch the frontend yet
+- Follow the service pattern in @user_service.py
+- Include proper error handling
+- Add type hints and docstrings"</code></pre>
+                </div>
+
+                <div class="alert success">
+                    <span class="icon">💡</span>
+                    <p><strong>Golden Rule:</strong> Do not let the AI refactor the entire codebase. Focus on the single
+                        atomic task.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- Step 5 -->
+        <article id="step-5" class="step-card">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <div class="step-titles">
+                    <h2>Run Automated Tests</h2>
+                    <span class="subtitle">Execute & Loop</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="code-block">
+                    <span class="label">Terminal</span>
+                    <pre><code>pytest tests/features/test_document_upload.py -v</code></pre>
+                </div>
+
+                <p><strong>If tests fail:</strong></p>
+
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code>"Fix this error:
+[Paste exact error message]
+
+Do not change the test—fix the implementation."</code></pre>
+                </div>
+
+                <p>Repeat until all tests pass. 🟢</p>
+            </div>
+        </article>
+
+        <!-- Step 6 -->
+        <article id="step-6" class="step-card">
+            <div class="step-header">
+                <div class="step-number">6</div>
+                <div class="step-titles">
+                    <h2>Manual "Vibe Check"</h2>
+                    <span class="subtitle">AI tests can pass even if the UX is broken</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <ul class="checklist">
+                    <li>Spin up the app locally</li>
+                    <li>Click the actual buttons</li>
+                    <li>Does it feel right?</li>
+                    <li>Does the loading state work?</li>
+                    <li>Are error messages helpful?</li>
+                </ul>
+
+                <p><strong>If issues found:</strong></p>
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <pre><code>"The upload works, but the loading spinner doesn't appear.
+The button stays active during upload. Fix the UI state management."</code></pre>
+                </div>
+            </div>
+        </article>
+
+        <!-- Step 7 -->
+        <article id="step-7" class="step-card">
+            <div class="step-header">
+                <div class="step-number">7</div>
+                <div class="step-titles">
+                    <h2>Document (The "Why")</h2>
+                    <span class="subtitle">AI writes great "What" but terrible "Why"</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code>"Generate docstrings for the functions in upload_service.py.
+Include:
+- Purpose (what business problem it solves)
+- Parameters with types
+- Return value
+- Exceptions that can be raised
+- Example usage"</code></pre>
+                </div>
+
+                <div class="alert warning">
+                    <span class="icon">✍️</span>
+                    <p><strong>You must review and enhance</strong> with business context the AI doesn't know. Update
+                        README.md if new endpoints were added.</p>
+                </div>
+            </div>
+        </article>
+
+        <!-- Step 8 -->
+        <article id="step-8" class="step-card">
+            <div class="step-header">
+                <div class="step-number">8</div>
+                <div class="step-titles">
+                    <h2>Hygiene & Clean Folders</h2>
+                    <span class="subtitle">AI is messy</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <p>AI leaves behind <code>temp_test.py</code>, <code>unused_component.tsx</code>, dead imports...</p>
+
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code>"Analyze the src/features/upload folder.
+Identify:
+1. Unused files
+2. Dead imports
+3. Commented-out code blocks
+4. Files that should be moved to different folders
+
+Create a cleanup plan."</code></pre>
+                </div>
+            </div>
+        </article>
+
+        <!-- Step 9 -->
+        <article id="step-9" class="step-card">
+            <div class="step-header">
+                <div class="step-number">9</div>
+                <div class="step-titles">
+                    <h2>Enforce CLAUDE.md Compliance</h2>
+                    <span class="subtitle">Force a compliance check</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code>"Review the code you just wrote against @CLAUDE.md rules.
+Check:
+- Naming conventions (snake_case for Python)
+- Required type hints
+- Logging usage (logger not print)
+- Error handling patterns
+- Import organization
+
+List any violations and fix them."</code></pre>
+                </div>
+            </div>
+        </article>
+
+        <!-- Step 10 -->
+        <article id="step-10" class="step-card">
+            <div class="step-header">
+                <div class="step-number">10</div>
+                <div class="step-titles">
+                    <h2>Create PR</h2>
+                    <span class="subtitle">Never commit to main</span>
+                </div>
+            </div>
+            <div class="step-content">
+                <div class="code-block">
+                    <span class="label">Terminal</span>
+                    <pre><code># Create feature branch
+git checkout -b feat/document-upload
+
+# Stage changes
+git add .</code></pre>
+                </div>
+
+                <p><strong>Use AI for commit message:</strong></p>
+
+                <div class="code-block">
+                    <span class="label">Prompt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy
+                    </button>
+                    <pre><code>"Generate a commit message for these changes following Conventional Commits:
+[paste git diff or summary]
+
+Format: type(scope): description"</code></pre>
+                </div>
+
+                <div class="alert success">
+                    <span class="icon">✅</span>
+                    <p><strong>Don't forget:</strong> Fill out the PR template with AI assistance disclosure!</p>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+
+        function copyCode(btn) {
+            const code = btn.closest('.code-block').querySelector('code').textContent;
+            navigator.clipboard.writeText(code);
+            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+            setTimeout(() => {
+                btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Copy';
+            }, 2000);
+        }
+
+        // Progress tracker highlighting
+        const steps = document.querySelectorAll('.step-card');
+        const progressSteps = document.querySelectorAll('.progress-step');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const stepNum = entry.target.id.split('-')[1];
+                    progressSteps.forEach((step, i) => {
+                        step.classList.toggle('active', i + 1 == stepNum);
+                    });
+                }
+            });
+        }, { threshold: 0.5, rootMargin: '-100px 0px -50% 0px' });
+
+        steps.forEach(step => observer.observe(step));
+    </script>
+</body>
+
+</html>
